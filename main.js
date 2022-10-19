@@ -46,6 +46,8 @@ class playGame extends Phaser.Scene {
         this.load.image("foreground2", "./assets/layers/parallax-mountain-2.png");
         this.load.image("foreground3", "./assets/layers/parallax-mountain-3.png");
         this.load.image("foreground4", "./assets/layers/parallax-mountain-4.png");
+
+        this.load.audio("music", "./assets/music/theVileGrove.wav")
     }
 
     create() {
@@ -68,6 +70,9 @@ class playGame extends Phaser.Scene {
         this.bg_5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, "foreground4");
         this.bg_5.setOrigin(0, 0);
         this.bg_5.setScrollFactor(0.75);
+
+        const music = this.sound.add("music", { loop: true });
+        music.play();
     }
 
     update() {
