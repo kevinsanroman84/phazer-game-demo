@@ -18,7 +18,6 @@ window.onload = function () {
         scene: playGame
     }
 
-
     game = new Phaser.Game(gameConfig);
     window.focus();
     resizeGame();
@@ -49,9 +48,11 @@ class playGame extends Phaser.Scene {
     }
 
     create() {
-        // Creates ground for game
-        this.ground = this.physics.add.staticGroup();
-        this.ground.create(990, 1020, "ground");
+        this.physics.world.setBounds(0, 0, undefined, 1020, true, false, false, true);
+
+        // Add music to scene
+        const music = this.sound.add("music", { loop: true });
+        // music.play();
 
         // Create the parallax background
         this.bg_1 = this.add.tileSprite(0, 0, game.config.width, game.config.height, "background");
@@ -88,7 +89,10 @@ class playGame extends Phaser.Scene {
         // this.player physics properties
         this.player.setBounce(0.2);
         this.player.setScale(3);
-        this.player.setCollideWorldBounds(false);
+        this.player.setCollideWorldBounds(true);
+        this.player.body.setGravityY(300);
+
+
 
         // creates animations for this.player character
         this.anims.create({
@@ -107,21 +111,13 @@ class playGame extends Phaser.Scene {
             repeat: -1
         })
 
-        this.player.body.setGravityY(300);
-
         // Set main camera to follow character
-        this.setBounds
         this.myCam = this.cameras.main;
-        this.myCam.setBounds(0, 0, game.config.width * 9999, game.config.height);
+        this.myCam.setBounds(0, 0, undefined, game.config.height);
         this.myCam.startFollow(this.player, true, 0.05, 0.05);
         // Input Events 
         cursors = this.input.keyboard.createCursorKeys();
 
-        // Collider settings
-        this.physics.add.collider(this.ground, this.player);
-
-        const music = this.sound.add("music", { loop: true });
-        music.play();
     }
 
     update() {
@@ -148,7 +144,6 @@ class playGame extends Phaser.Scene {
         this.bg_5.tilePositionX = this.myCam.scrollX * .5;
         this.bg_6.tilePositionX = this.myCam.scrollX;
         this.bg_7.tilePositionX = this.myCam.scrollX;
-        this.ground.tilePositionX = this.player.x;
     }
 }
 
